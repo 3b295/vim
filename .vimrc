@@ -26,6 +26,14 @@ let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
 """"""""""""""""""""""""""" end 
 
+" 保存时， 检查代码的语法
+Plugin 'scrooloose/syntastic'
+
+" 补全插件
+Plugin 'Valloric/YouCompleteMe'
+
+
+
 
 
 
@@ -37,16 +45,26 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 "my code
 "
 """""""""""""""""""""""""""""""""""""""
-:set shiftwidth=4
-:set expandtab
-:set tabstop=4
-:set autoindent 
+
+" python PEP8 
+au BufNewFile,BufRead *.py
+\ set tabstop=4 |
+\ set softtabstop=4 |
+\ set shiftwidth=4 |
+\ set textwidth=79 |
+\ set expandtab |
+\ set autoindent |
+\ set fileformat=unix |
 
 :let mapleader=","
 
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" 一键运行
 :nnoremap <leader>ri :!ipython %<cr>
+:nnoremap <leader>rp :!perl -w %<cr>
+
 
 syn on "语法高亮
 set number
@@ -58,6 +76,9 @@ set nuw=1 " 去掉行前的空格
 
 highlight Comment ctermfg=blue  "注解颜色
 highlight LineNr ctermfg=darkred
+
+" 在插入模式下<BS>有几种工作方式，默认是设置成vi兼容，这样就会出现无法删除此次插入前文字的情况。
+:set backspace=indent,eol,start
 
 
 

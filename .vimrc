@@ -2,7 +2,7 @@ set nocompatible              " 去除VI一致性,必须
 filetype off                  " 必须
 
 " 设置包括vundle和初始化相关的runtime path
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vundle
 let path='~/.vim/bundle'
 call vundle#begin(path)
 
@@ -30,7 +30,7 @@ let g:ctrlp_follow_symlinks=1
 Plugin 'scrooloose/syntastic'
 
 " 补全插件
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 
 

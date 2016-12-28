@@ -62,8 +62,9 @@ au BufNewFile,BufRead *.py
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " 一键运行
-:nnoremap <leader>ri :!ipython %<cr>
-:nnoremap <leader>rp :!perl -w %<cr>
+:nnoremap <leader>i :!ipython -i %<cr>
+:nnoremap <leader>p :!python %<cr>
+:nnoremap <leader>t :!python -m doctest -v %<cr>
 
 
 syn on "语法高亮

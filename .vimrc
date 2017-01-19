@@ -46,37 +46,52 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 "
 """""""""""""""""""""""""""""""""""""""
 
-" python PEP8 
-au BufNewFile,BufRead *.py
-\ set tabstop=4 |
-\ set softtabstop=4 |
-\ set shiftwidth=4 |
-\ set textwidth=79 |
-\ set expandtab |
-\ set autoindent |
-\ set fileformat=unix |
-
 :let mapleader=","
 
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 
+
+" python PEP8 
+:autocmd BufNewFile,BufRead *.py
+			\ set tabstop=4 |
+			\ set softtabstop=4 |
+			\ set shiftwidth=4 |
+			\ set textwidth=79 |
+			\ set expandtab |
+			\ set autoindent |
+			\ set fileformat=unix |
+
 " 一键运行
-:nnoremap <leader>i :!ipython -i %<cr>
-:nnoremap <leader>p :!python %<cr>
-:nnoremap <leader>t :!python -m doctest -v %<cr>
+:autocmd BufNewFile,BufRead *.py
+			\ :nnoremap <leader>i :!ipython -i %<cr> |
+			\ :nnoremap <leader>t :!python -m doctest -v %<cr> |
 
 
-syn on "语法高亮
-set number
-set relativenumber "相对行号
-set scrolloff=5 " 显示顶部和底部5行
-set mouse=a        "启用鼠标
-set incsearch " 查询时进行锁定
-set nuw=1 " 去掉行前的空格
+" Ruby 
+:autocmd BufNewFile,BufRead *.rb
+			\ set tabstop=2 |
+			\ set softtabstop=2 |
+			\ set shiftwidth=2 |
+			\ set autoindent |
+			\ set ai! | 
 
-highlight Comment ctermfg=blue  "注解颜色
-highlight LineNr ctermfg=darkred
+
+:autocmd BufNewFile,BufRead *.rb
+			\ :nnoremap <leader>r :!ruby %<cr> |
+
+
+:syn on "语法高亮
+:set number
+:set relativenumber 	" 相对行号
+:set scrolloff=5 	" 显示顶部和底部5行
+:set mouse=a        	" 启用鼠标
+:set incsearch hlsearch " hlsearch让Vim高亮文件中所有匹配项
+			" incsearch则令Vim在你正打着搜索内容时就高亮下一个匹配项
+:set nuw=1 		" 去掉行前的空格
+
+:highlight Comment ctermfg=blue  " 注解颜色
+:highlight LineNr ctermfg=darkred
 
 " 在插入模式下<BS>有几种工作方式，默认是设置成vi兼容，这样就会出现无法删除此次插入前文字的情况。
 :set backspace=indent,eol,start

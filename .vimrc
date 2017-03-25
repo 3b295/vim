@@ -55,8 +55,8 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 
 :let mapleader=","
 
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+:nnoremap <leader>sv :source $MYVIMRC<CR>
 
 
 " python PEP8 
@@ -71,9 +71,14 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 
 " 一键运行
 :autocmd BufNewFile,BufRead *.py
-			\ :nnoremap <leader>i :!ipython -i %<cr> |
-			\ :nnoremap <leader>t :!python -m doctest -v %<cr> |
+			\ :nnoremap <leader>i :!ipython -i %<CR>|
+            \ :nnoremap <leader>r :!python %<CR>|
+			\ :nnoremap <leader>t :!python -m doctest -v %<CR>
 
+
+
+:autocmd BufNewFile,BufRead *.c
+			\ :nnoremap <leader>r :!gcc % && ./a.out<CR>
 
 " Ruby 
 :autocmd BufNewFile,BufRead *.rb
@@ -83,9 +88,18 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ set autoindent |
 			\ set ai! | 
 
+:autocmd BufNewFile,BufRead *.scm
+			\ :nnoremap <leader>r :!racket %<CR>
+
 
 :autocmd BufNewFile,BufRead *.rb
-			\ :nnoremap <leader>r :!ruby %<cr>
+			\ :nnoremap <leader>r :!ruby %<CR>
+
+:autocmd BufNewFile,BufRead *.sh
+			\ set tabstop=2 |
+			\ set softtabstop=2 |
+			\ set shiftwidth=2 |
+			\ set autoindent |
 
 
 :syn on "语法高亮
@@ -107,3 +121,19 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 :nnoremap [b :bp<CR>
 :nnoremap ]b :bn<CR>
 
+:nnoremap <leader><Space><Space> :%s/\s\+$//<CR>
+
+
+" Make a simple "search" text object.
+" 使用 /something 查找
+" 使用 cs 替换第一个，然后按 <Esc> 键
+" 使用 n.n.n.n.n. 查找以及替换余下匹配项。 n nest   . replace
+vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
+    \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
+omap s :normal vs<CR>
+
+
+" 按 <Enter> 跳到行文件末尾。
+" 按 <Backspace> 回到文件开始。 
+nnoremap <CR> G
+nnoremap <BS> gg

@@ -85,6 +85,7 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ set tabstop=2 |
 			\ set softtabstop=2 |
 			\ set shiftwidth=2 |
+			\ set expandtab |
 			\ set autoindent |
 			\ set ai! | 
 

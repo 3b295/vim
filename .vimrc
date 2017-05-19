@@ -102,6 +102,10 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ set shiftwidth=2 |
 			\ set autoindent |
 
+:autocmd BufNewFile,BufRead *.yml
+			\ :set tabstop=4 |
+			\ :set expandtab |
+			\ :set shiftwidth=4
 
 :syn on "语法高亮
 :set number

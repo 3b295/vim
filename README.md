@@ -3,7 +3,7 @@
 
 
 ~~~
-  git clone git@github.com:3b295/vim.git
+  git https://github.com/3b295/vim.git
   ln -s vim/.vimrc .vimrc
 ~~~  
 

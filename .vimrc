@@ -108,6 +108,20 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ :set shiftwidth=4 |
 			\ :set shiftwidth=4
 
+
+" add Header
+function HeaderPython()
+    call setline(1, "#!/usr/bin/env python")
+    call append(1, "# -*- coding: utf-8 -*-")
+    call append(2, "# Pw @ " . strftime('%Y-%m-%d %T', localtime()))
+    normal G
+    normal o
+    normal o
+endf
+
+:autocmd BufNewFile *.py call HeaderPython()
+
+
 :syn on "语法高亮
 :set number
 :set relativenumber 	" 相对行号

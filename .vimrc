@@ -46,6 +46,17 @@ set laststatus=2 " 创建拆分之前也显示状态行
 """""""""""""""""""""""""""""""
 
 
+Plugin 'skywind3000/asyncrun.vim'
+""""""""""""""""""""""""""""""
+" Use F9 to toggle quickfix window rapidly
+:noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
+" automate opening quickfix window when AsyncRun starts
+augroup vimrc
+    autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
+augroup END
+"""""""""""""""""""""""""" end
+
+
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本B 
 
@@ -73,11 +84,9 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ set fileformat=unix |
 
 " 一键运行
-:autocmd BufNewFile,BufRead *.py
-			\ :nnoremap <leader>i :!ipython -i %<CR>|
-            \ :nnoremap <leader>r :!python %<CR>|
-			\ :nnoremap <leader>t :!python -m doctest -v %<CR>
-
+:autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR> 
+:autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw python %<CR>
+:autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw python -m doctest -v %<CR>
 
 
 :autocmd BufNewFile,BufRead *.c

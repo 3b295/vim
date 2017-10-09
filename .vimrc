@@ -26,11 +26,17 @@ let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
 """"""""""""""""""""""""""" end 
 
+
 " 保存时， 检查代码的语法
 Plugin 'scrooloose/syntastic'
 
+
+""""""""""""""""""""""""""" end
+
 " 补全插件
 " Plugin 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
+
  
 Plugin 'vim-airline/vim-airline'
 """""""""""""""""""""""""""""""
@@ -38,9 +44,6 @@ let g:airline#extensions#tabline#enabled = 1 " 标签栏
 let g:airline_powerline_fonts = 1
 set laststatus=2 " 创建拆分之前也显示状态行
 """""""""""""""""""""""""""""""
-
-
-
 
 
 call vundle#end()            " 必须
@@ -124,7 +127,6 @@ endf
 
 :syn on "语法高亮
 :set number
-:set relativenumber 	" 相对行号
 :set scrolloff=5 	" 显示顶部和底部5行
 :set mouse=a        	" 启用鼠标
 " :set incsearch hlsearch " hlsearch让Vim高亮文件中所有匹配项
@@ -151,9 +153,3 @@ endf
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
 omap s :normal vs<CR>
-
-
-" 按 <Enter> 跳到行文件末尾。
-" 按 <Backspace> 回到文件开始。 
-nnoremap <CR> G
-nnoremap <BS> gg

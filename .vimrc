@@ -84,9 +84,12 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 			\ set fileformat=unix |
 
 " 一键运行
-:autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR> 
-:autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw python %<CR>
-:autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw python -m doctest -v %<CR>
+augroup a_key_to_run_python
+	autocmd!
+	autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR> 
+	autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw python %<CR>
+	autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw python -m doctest -v %<CR>
+augroup END
 
 
 :autocmd BufNewFile,BufRead *.c

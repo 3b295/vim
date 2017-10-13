@@ -2,7 +2,7 @@ set nocompatible              " 去除VI一致性,必须
 filetype off                  " 必须
 
 " 设置包括vundle和初始化相关的runtime path
-set rtp+=~/.vim/bundle/vundle
+set rtp+=~/.vim/bundle/Vundle.vim
 let path='~/.vim/bundle'
 call vundle#begin(path)
 

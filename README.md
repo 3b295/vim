@@ -9,7 +9,7 @@ ln -s vim/.vimrc .vimrc
 
 ## 安装vundle插件
 ~~~
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/Vundle.vim
 ~~~
 
 ## 安装插件

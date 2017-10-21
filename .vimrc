@@ -36,8 +36,23 @@ Plugin 'scrooloose/syntastic'
 " 补全插件
 " Plugin 'Valloric/YouCompleteMe'
 Plugin 'davidhalter/jedi-vim'
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#force_py_version=3
+" (T.T) It is ugly hack!         
+" Add the virtualenv's site-packages to vim path 
+if has('python3')
+set pyx=3
+python3 << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    sys.path.insert(0, os.path.join(project_base_dir, 'lib', 'python3.6', 'site-packages'))
+EOF
+endif
 
- 
+
 Plugin 'vim-airline/vim-airline'
 """""""""""""""""""""""""""""""
 let g:airline#extensions#tabline#enabled = 1 " 标签栏
@@ -55,6 +70,12 @@ augroup vimrc
     autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
 augroup END
 """""""""""""""""""""""""" end
+
+
+Plugin 'majutsushi/tagbar'
+nmap <F8> :TagbarToggle<CR>
+" 启动时自动focus
+let g:tagbar_autofocus = 1
 
 
 call vundle#end()            " 必须
@@ -87,8 +108,8 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 augroup a_key_to_run_python
 	autocmd!
 	autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR> 
-	autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw python %<CR>
-	autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw python -m doctest -v %<CR>
+	autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw /usr/bin/env python %<CR>
+	autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw /usr/bin/env python -m doctest -v %<CR>
 augroup END
 
 
@@ -125,7 +146,7 @@ augroup END
 
 
 " add Header
-function HeaderPython()
+function! HeaderPython()
     call setline(1, "#!/usr/bin/env python")
     call append(1, "# -*- coding: utf-8 -*-")
     call append(2, "# Pw @ " . strftime('%Y-%m-%d %T', localtime()))

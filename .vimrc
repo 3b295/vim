@@ -78,6 +78,10 @@ nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
 
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
+
 call vundle#end()            " 必须
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本B 
 

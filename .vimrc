@@ -33,25 +33,6 @@ Plugin 'scrooloose/syntastic'
 
 """"""""""""""""""""""""""" end
 
-" 补全插件
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'davidhalter/jedi-vim'
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#force_py_version=3
-" (T.T) It is ugly hack!         
-" Add the virtualenv's site-packages to vim path 
-if has('python3')
-set pyx=3
-python3 << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, os.path.join(project_base_dir, 'lib', 'python3.6', 'site-packages'))
-EOF
-endif
-
 
 Plugin 'vim-airline/vim-airline'
 """""""""""""""""""""""""""""""

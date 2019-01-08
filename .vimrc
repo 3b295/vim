@@ -10,7 +10,7 @@ call vundle#begin(path)
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'ctrlpvim/ctrlp.vim'
-"""""""""""""""""""""""""" 
+""""""""""""""""""""""""""
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_cmd = 'CtrlP'
 map <leader>f :CtrlPMRU<CR>
@@ -24,7 +24,7 @@ let g:ctrlp_max_height=15
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
-""""""""""""""""""""""""""" end 
+""""""""""""""""""""""""""" end
 
 
 " 保存时， 检查代码的语法
@@ -62,9 +62,11 @@ let g:tagbar_autofocus = 1
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
+Plugin 'stephpy/vim-yaml'
+
 
 call vundle#end()            " 必须
-filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本B 
+filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本B
 
 """""""""""""""""""""""""""""""""""""""
 "
@@ -79,7 +81,7 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 :nnoremap <leader>sv :source $MYVIMRC<CR>
 
 
-" python PEP8 
+" python PEP8
 :autocmd BufNewFile,BufRead *.py
 			\ set tabstop=4 |
 			\ set softtabstop=4 |
@@ -92,7 +94,7 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " 一键运行
 augroup a_key_to_run_python
 	autocmd!
-	autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR> 
+	autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR>
 	autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw /usr/bin/env python %<CR>
 	autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw /usr/bin/env python -m doctest -v %<CR>
 augroup END
@@ -101,14 +103,14 @@ augroup END
 :autocmd BufNewFile,BufRead *.c
 			\ :nnoremap <leader>r :!gcc % && ./a.out<CR>
 
-" Ruby 
+" Ruby
 :autocmd BufNewFile,BufRead *.rb
 			\ set tabstop=2 |
 			\ set softtabstop=2 |
 			\ set shiftwidth=2 |
 			\ set expandtab |
 			\ set autoindent |
-			\ set ai! | 
+			\ set ai! |
 
 :autocmd BufNewFile,BufRead *.scm
 			\ :nnoremap <leader>r :!racket %<CR>
@@ -126,9 +128,17 @@ augroup END
 :autocmd BufNewFile,BufRead *.yml
 			\ :set tabstop=4 |
 			\ :set expandtab |
-			\ :set shiftwidth=4 |
 			\ :set shiftwidth=4
 
+" yaml
+:autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab shiftwidth=2
+
+:autocmd FileType nginx
+			\ set tabstop=4 |
+			\ set softtabstop=4 |
+			\ set expandtab |
+			\ set shiftwidth=4 |
+			\ set autoindent
 
 " add Header
 function! HeaderPython()
@@ -171,3 +181,6 @@ endf
 vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
     \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
 omap s :normal vs<CR>
+
+" mac 终端256色
+set t_Co=256

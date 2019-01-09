@@ -1,186 +1,117 @@
-set nocompatible              " 去除VI一致性,必须
-filetype off                  " 必须
+" 配置 快捷键 {{{
+let mapleader=","
 
-" 设置包括vundle和初始化相关的runtime path
-set rtp+=~/.vim/bundle/Vundle.vim
-let path='~/.vim/bundle'
-call vundle#begin(path)
-
-" 让vundle管理插件版本,必须
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'ctrlpvim/ctrlp.vim'
-""""""""""""""""""""""""""
-let g:ctrlp_map = '<leader>p'
-let g:ctrlp_cmd = 'CtrlP'
-map <leader>f :CtrlPMRU<CR>
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
-    \ }
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
-let g:ctrlp_match_window_reversed=0
-let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
-""""""""""""""""""""""""""" end
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>ez :vsplit ~/.zshrc<CR>
 
 
-" 保存时， 检查代码的语法
-Plugin 'scrooloose/syntastic'
+" }}}
+" Colors {{{
+colorscheme badwolf     " 颜色主题 https://github.com/sjl/badwolf/
+syntax enable           " enable syntax processing
 
 
-""""""""""""""""""""""""""" end
+" }}}
+" Spaces & Tabs {{{
+set tabstop=4           " 每个 TAB 的可视空间
+set expandtab           " tabs 是空格
+set softtabstop=4       " 插入 <TAB> 的空格数以及删除的空格数
+set shiftwidth=4        " 左右缩进的空格数
 
 
-Plugin 'vim-airline/vim-airline'
-"""""""""""""""""""""""""""""""
-let g:airline#extensions#tabline#enabled = 1 " 标签栏
-let g:airline_powerline_fonts = 1
-set laststatus=2 " 创建拆分之前也显示状态行
-"""""""""""""""""""""""""""""""
+" }}}
+" UI 配置 {{{
+set number              " 行号
+set cursorline          " 光标在所在行上水平突出显示(或者下划线)
+filetype indent on      " 按照 indent 目录下的脚本缩进
+set wildmenu            " 命令栏使用<TAB>补全时, 出现一个可视化选项栏
+set showmatch           " 突出显示相匹配的 { [ ( < > ) ] } etc.
+set scrolloff=5         " 显示顶部和底部5行
+set mouse=a             " 启用鼠标
 
 
-Plugin 'skywind3000/asyncrun.vim'
-""""""""""""""""""""""""""""""
-" Use F9 to toggle quickfix window rapidly
-:noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
-" automate opening quickfix window when AsyncRun starts
-augroup vimrc
-    autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
-augroup END
-"""""""""""""""""""""""""" end
+" }}}
+" search {{{
+set incsearch           " 输入查找内容的同时, vim 就开始对输入内容进行匹配
+set hlsearch            " 对所有搜索高亮
+" 关闭搜索高亮
+nnoremap <leader><space> :nohlsearch<CR>    
+
+" }}}
+" 折行(fold) {{{
+set foldenable          " 开启折行
+set foldmethod=indent   " 基于缩进的折行
+set foldlevelstart=10   " 打开新的缓冲区时, 默认显示的折叠级别
+" 打开/关闭折叠
+nnoremap <space> za
 
 
-Plugin 'majutsushi/tagbar'
-nmap <F8> :TagbarToggle<CR>
-" 启动时自动focus
-let g:tagbar_autofocus = 1
+" }}}
+" 移动 {{{
+" 高亮并且选中最近插入
+nnoremap gV `[v`]       
+" }}}
+" 备份(backups) {{{
+set writebackup         " 保证写入时存在一份原始备份文件(myfile.txt~)
+set backup              " 备份的文件保留, 在下一次写入时覆盖
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp     " 控制备份文件(myfile.txt~)的位置, 包含编辑之前的版本
+set backupskip=/tmp/*,/private/tmp/*                    " 不对这些目录备份
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp     " 控制交换文件(.myfile.txt.swp)的位置, 包含未保存的更改 
+set undodir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp       " 控制撤销文件(.myfile.un~)的位置, 包含以往编辑文件的撤销树
 
 
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+" }}}
+" AutoGroups {{{
 
-Plugin 'stephpy/vim-yaml'
-
-
-call vundle#end()            " 必须
-filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本B
-
-"""""""""""""""""""""""""""""""""""""""
-"
-"my code
-"
-"""""""""""""""""""""""""""""""""""""""
-
-
-:let mapleader=","
-
-:nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-:nnoremap <leader>sv :source $MYVIMRC<CR>
-
-
-" python PEP8
-:autocmd BufNewFile,BufRead *.py
-			\ set tabstop=4 |
-			\ set softtabstop=4 |
-			\ set shiftwidth=4 |
-			\ set textwidth=79 |
-			\ set expandtab |
-			\ set autoindent |
-			\ set fileformat=unix |
-
-" 一键运行
-augroup a_key_to_run_python
-	autocmd!
-	autocmd BufNewFile,BufRead *.py :nnoremap <leader>i :!ipython -i %<CR>
-	autocmd BufNewFile,BufRead *.py :nnoremap <F5> :AsyncRun -raw /usr/bin/env python %<CR>
-	autocmd BufNewFile,BufRead *.py :nnoremap <leader>t :AsyncRun -raw /usr/bin/env python -m doctest -v %<CR>
+augroup configgroup
+    autocmd!
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.java,*.md 
+                \:call <SID>StripTrailingWhitespaces()
 augroup END
 
 
-:autocmd BufNewFile,BufRead *.c
-			\ :nnoremap <leader>r :!gcc % && ./a.out<CR>
+" }}}
+" 通用函数{{{
 
-" Ruby
-:autocmd BufNewFile,BufRead *.rb
-			\ set tabstop=2 |
-			\ set softtabstop=2 |
-			\ set shiftwidth=2 |
-			\ set expandtab |
-			\ set autoindent |
-			\ set ai! |
+" 删除尾行空格
+function! <SID>StripTrailingWhitespaces()
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+" }}}
+" 启动配置 {{{
+set modelines=1     " 在文件的前1行和最后1行寻找 modeline, 默认5
 
-:autocmd BufNewFile,BufRead *.scm
-			\ :nnoremap <leader>r :!racket %<CR>
+" }}}
+" vim-plug {{{
+call plug#begin('~/.vim/plugged')
+" deoplete.nvim {{{
+" asynchronous completion framework for vim8/neovim 
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 
+" 补全源 {{{
+" https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources 官方推荐各个语言
+ 
+" python 推荐补全方案 jedi
+" 依赖 pip 安装 jedi neovim pynvim
+Plug 'zchee/deoplete-jedi'
+" 虚拟环境
+let g:python3_host_prog = "/Users/xwystz/.pyenv/shims/python"
+" }}}
+" }}}
 
-:autocmd BufNewFile,BufRead *.rb
-			\ :nnoremap <leader>r :!ruby %<CR>
-
-:autocmd BufNewFile,BufRead *.sh
-			\ set tabstop=2 |
-			\ set softtabstop=2 |
-			\ set shiftwidth=2 |
-			\ set autoindent |
-
-:autocmd BufNewFile,BufRead *.yml
-			\ :set tabstop=4 |
-			\ :set expandtab |
-			\ :set shiftwidth=4
-
-" yaml
-:autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab shiftwidth=2
-
-:autocmd FileType nginx
-			\ set tabstop=4 |
-			\ set softtabstop=4 |
-			\ set expandtab |
-			\ set shiftwidth=4 |
-			\ set autoindent
-
-" add Header
-function! HeaderPython()
-    call setline(1, "#!/usr/bin/env python")
-    call append(1, "# -*- coding: utf-8 -*-")
-    call append(2, "# Pw @ " . strftime('%Y-%m-%d %T', localtime()))
-    normal G
-    normal o
-    normal o
-endf
-
-:autocmd BufNewFile *.py call HeaderPython()
-
-
-:syn on "语法高亮
-:set number
-:set scrolloff=5 	" 显示顶部和底部5行
-:set mouse=a        	" 启用鼠标
-" :set incsearch hlsearch " hlsearch让Vim高亮文件中所有匹配项
-			" incsearch则令Vim在你正打着搜索内容时就高亮下一个匹配项
-:set nuw=1 		" 去掉行前的空格
-
-:highlight Comment ctermfg=blue  " 注解颜色
-:highlight LineNr ctermfg=darkred
-
-" 在插入模式下<BS>有几种工作方式，默认是设置成vi兼容，这样就会出现无法删除此次插入前文字的情况。
-:set backspace=indent,eol,start
-
-" 缓存区快捷键
-:nnoremap [b :bp<CR>
-:nnoremap ]b :bn<CR>
-
-:nnoremap <leader><Space><Space> :%s/\s\+$//<CR>
-
-
-" Make a simple "search" text object.
-" 使用 /something 查找
-" 使用 cs 替换第一个，然后按 <Esc> 键
-" 使用 n.n.n.n.n. 查找以及替换余下匹配项。 n nest   . replace
-vnoremap <silent> s //e<C-r>=&selection=='exclusive'?'+1':''<CR><CR>
-    \:<C-u>call histdel('search',-1)<Bar>let @/=histget('search',-1)<CR>gv
-omap s :normal vs<CR>
-
-" mac 终端256色
-set t_Co=256
+call plug#end() 
+" }}}
+" vim:foldmethod=marker:foldlevel=0

@@ -4,8 +4,6 @@ let mapleader=","
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>ez :vsplit ~/.zshrc<CR>
-
-
 " }}}
 " Colors {{{
 colorscheme badwolf     " 颜色主题 https://github.com/sjl/badwolf/
@@ -19,6 +17,9 @@ set expandtab           " tabs 是空格
 set softtabstop=4       " 插入 <TAB> 的空格数以及删除的空格数
 set shiftwidth=4        " 左右缩进的空格数
 set autoindent          " 自动缩进
+
+" yaml 缩进
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 
 " }}}
@@ -98,7 +99,7 @@ endfunction
 set modelines=1     " 在文件的前1行和最后1行寻找 modeline, 默认5
 
 " }}}
-" vim-plug {{{
+" 🔌 vim-plug {{{
 call plug#begin('~/.vim/plugged')
 " deoplete.nvim {{{
 " asynchronous completion framework for vim8/neovim 
@@ -117,6 +118,9 @@ let g:deoplete#enable_at_startup = 1
 " python 推荐补全方案 jedi
 " 依赖 pip 安装 jedi neovim pynvim
 Plug 'zchee/deoplete-jedi'
+" golang 补全
+Plug 'Shougo/deoplete.nvim'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 " 虚拟环境
 let g:python3_host_prog = "/Users/xwystz/.pyenv/shims/python"
 " }}}
@@ -155,6 +159,16 @@ endfunction
 
 autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
+
+" }}}
+" 代码片段 {{{
+" 代码片段引擎
+Plug 'SirVer/ultisnips'
+" 涵盖大部分编程语言的代码片段 
+Plug 'honza/vim-snippets'
+
+" <tab> 触发补全
+let g:UltiSnipsExpandTrigger="<tab>"
 
 " }}}
 

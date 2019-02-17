@@ -1,3 +1,7 @@
+" vim:foldmethod=marker:foldlevel=0
+" 👻 happy hacking...  
+
+
 " 配置 快捷键 {{{
 let mapleader=","
 
@@ -18,8 +22,11 @@ set softtabstop=4       " 插入 <TAB> 的空格数以及删除的空格数
 set shiftwidth=4        " 左右缩进的空格数
 set autoindent          " 自动缩进
 
-" yaml 缩进
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+augroup filetypegroup
+    autocmd!
+    " yaml 缩进
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
 
 
 " }}}
@@ -77,6 +84,7 @@ set undodir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp       " 控制撤销文件(.my
 
 augroup configgroup
     autocmd!
+    " 清除尾行空格
     autocmd BufWritePre *.php,*.py,*.js,*.txt,*.java,*.md 
                 \:call <SID>StripTrailingWhitespaces()
 augroup END
@@ -99,10 +107,23 @@ endfunction
 set modelines=1     " 在文件的前1行和最后1行寻找 modeline, 默认5
 
 " }}}
-" 🔌 vim-plug {{{
+" ➡️  | run {{{
+" k8s yaml file {{{
+augroup runk8syamlgroup
+    autocmd!
+    " 依赖 'andrewstuart/vim-kubernetes' 插件
+    " 使用当前文件创建对应资源
+    autocmd FileType yaml :nnoremap <leader>r :KubeCreate<CR>
+    " 使用当前文件删除对应资源
+    autocmd FileType yaml :nnoremap <leader>d :KubeDelete<CR>
+augroup END
+" }}}
+" }}}
+" 🔧 | vim-plug {{{
 call plug#begin('~/.vim/plugged')
 " deoplete.nvim {{{
 " asynchronous completion framework for vim8/neovim 
+" TODO: 这个插件在 vim8 下, 很影响启动速度 🐢
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -133,9 +154,10 @@ map <F2> :NERDTreeToggle<CR>
 
 augroup nerdtreegroup
     autocmd!
-    " vim 没有指定文件时，自动打开 NERDTree
+    " vim 没有指定文件时，自动打开 NERDTree     # 影响启动速度
     autocmd StdinReadPre * let s:std_in=1
     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    "
     " 只剩目录树时自动关闭
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
@@ -171,7 +193,13 @@ Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<tab>"
 
 " }}}
+" k8s yaml {{{
+" 代码块, 执行 kebuctl 命令 
+Plug 'andrewstuart/vim-kubernetes'
+" }}}
 
 call plug#end() 
 " }}}
-" vim:foldmethod=marker:foldlevel=0
+
+
+

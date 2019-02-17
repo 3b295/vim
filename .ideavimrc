@@ -1,0 +1,24 @@
+let mapleader=","
+
+" 关闭响铃
+set visualbell
+set noerrorbells
+
+" 令屏幕滚动时在光标上下方保留5行预览代码（也就是光标会在第5行触发向上滚动，
+" 或者在倒数第5行触发向下滚动）
+set so=5
+
+ " 显示顶部和底部5行
+set scrolloff=5       
+
+" pycharm action mapping
+nnoremap <leader>r :action Rerun<CR>
+nnoremap <leader>R :action Run<CR>
+
+nnoremap <C-S-]> gt
+nnoremap <C-S-[> gT
+
+
+" 开关折行
+nnoremap <space> za
+

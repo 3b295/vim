@@ -80,11 +80,10 @@ set undodir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp       " 控制撤销文件(.my
 
 " }}}
 " AutoGroups {{{
-
 augroup configgroup
     autocmd!
     " 清除尾行空格
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.java,*.md 
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.java,*.md,*.lua
                 \:call <SID>StripTrailingWhitespaces()
 augroup END
 

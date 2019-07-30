@@ -22,14 +22,13 @@ set softtabstop=4       " 插入 <TAB> 的空格数以及删除的空格数
 set shiftwidth=4        " 左右缩进的空格数
 set autoindent          " 自动缩进
 
-augroup filetypegroup
+augroup spaces_group
     autocmd!
     " yaml 缩进
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 augroup END
 
-
-" }}}
+"}}}
 " UI 配置 {{{
 set number              " 行号
 set cursorline          " 光标在所在行上水平突出显示(或者下划线)
@@ -104,7 +103,7 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 " }}}
 " 启动配置 {{{
-set modelines=1     " 在文件的前1行和最后1行寻找 modeline, 默认5
+set modelines=5     " 在文件的前x行和最后x行寻找 modeline, 默认5
 
 " }}}
 " ➡️  | run {{{
@@ -124,14 +123,14 @@ call plug#begin('~/.vim/plugged')
 " deoplete.nvim {{{
 " asynchronous completion framework for vim8/neovim 
 " TODO: 这个插件在 vim8 下, 很影响启动速度 🐢
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
 
 " 补全源 {{{
 " https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources 官方推荐各个语言的对应补全汇总网页
@@ -197,9 +196,32 @@ let g:UltiSnipsExpandTrigger="<tab>"
 " 代码块, 执行 kebuctl 命令 
 Plug 'andrewstuart/vim-kubernetes'
 " }}}
+" AsyncRun {{{
+Plug 'skywind3000/asyncrun.vim'
+
+" Quickfix 最佳实践
+" 文本被添加时, 自动打开quickfix 窗口
+augroup vimrc
+    autocmd QuickFixCmdPost * botright copen 16
+augroup END
+" }}}
+" vim-yaml {{{
+Plug 'stephpy/vim-yaml'
+" }}}
+" logstash {{{
+Plug 'robbles/logstash.vim'
+" }}}
 
 call plug#end() 
 " }}}
+" AsyncRun {{{
+augroup async_group
+    autocmd!
+    " resty
+    autocmd FileType lua noremap <leader>r :AsyncRun resty -I "${HOME}/PycharmProjects/api/lib/" -I "${HOME}/PycharmProjects/api/pdv/api/comm/" % <CR>
+    " nginx 保存时自动 reload
+    autocmd FileType nginx noremap <leader>r :AsyncRun openresty -s reload<CR>
+augroup END
 
-
+" }}}
 

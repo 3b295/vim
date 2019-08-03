@@ -210,6 +210,10 @@ Plug 'stephpy/vim-yaml'
 " logstash {{{
 Plug 'robbles/logstash.vim'
 " }}}
+" vim-multiple-cursors {{{
+Plug 'terryma/vim-multiple-cursors'
+" }}}
+
 
 call plug#end() 
 " }}}

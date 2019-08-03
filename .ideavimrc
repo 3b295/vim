@@ -18,7 +18,6 @@ nnoremap <leader>R :action Run<CR>
 nnoremap <C-S-]> gt
 nnoremap <C-S-[> gT
 
-
 " 开关折行
 nnoremap <space> za
 

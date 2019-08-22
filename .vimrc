@@ -37,6 +37,7 @@ set wildmenu            " 命令栏使用<TAB>补全时, 出现一个可视化�
 set showmatch           " 突出显示相匹配的 { [ ( < > ) ] } etc.
 set scrolloff=5         " 显示顶部和底部5行
 set mouse=a             " 启用鼠标
+set visualbell          " 关闭响铃🔔
 
 
 " }}}
@@ -85,6 +86,10 @@ augroup configgroup
     " 清除尾行空格
     autocmd BufWritePre *.php,*.py,*.js,*.txt,*.java,*.md,*.lua
                 \:call <SID>StripTrailingWhitespaces()
+    " 追加 Flex 文件头部
+    autocmd BufNewFile *.l :call append(0, "%option noyywrap")
+    " 追加 Bash shebang
+    autocmd BufNewFile *.sh :call append(0, "#!/usr/bin/env bash")
 augroup END
 
 
@@ -100,6 +105,7 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
+
 " }}}
 " 启动配置 {{{
 set modelines=5     " 在文件的前x行和最后x行寻找 modeline, 默认5
@@ -119,31 +125,7 @@ augroup END
 " }}}
 " 🔧 | vim-plug {{{
 call plug#begin('~/.vim/plugged')
-" deoplete.nvim {{{
-" asynchronous completion framework for vim8/neovim 
-" TODO: 这个插件在 vim8 下, 很影响启动速度 🐢
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
 
-" 补全源 {{{
-" https://github.com/Shougo/deoplete.nvim/wiki/Completion-Sources 官方推荐各个语言的对应补全汇总网页
- 
-" python 推荐补全方案 jedi
-" 依赖 pip 安装 jedi neovim pynvim
-Plug 'zchee/deoplete-jedi'
-" golang 补全
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-" 虚拟环境
-let g:python3_host_prog = "/Users/xwystz/.pyenv/shims/python"
-" }}}
-" }}}
 " NERDTree 目录树 {{{
 Plug 'scrooloose/nerdtree'
 
@@ -152,10 +134,6 @@ map <F2> :NERDTreeToggle<CR>
 
 augroup nerdtreegroup
     autocmd!
-    " vim 没有指定文件时，自动打开 NERDTree     # 影响启动速度
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    "
     " 只剩目录树时自动关闭
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
@@ -181,16 +159,6 @@ autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 
 
 " }}}
-" 代码片段 {{{
-" 代码片段引擎
-Plug 'SirVer/ultisnips'
-" 涵盖大部分编程语言的代码片段 
-Plug 'honza/vim-snippets'
-
-" <tab> 触发补全
-let g:UltiSnipsExpandTrigger="<tab>"
-
-" }}}
 " k8s yaml {{{
 " 代码块, 执行 kebuctl 命令 
 Plug 'andrewstuart/vim-kubernetes'
@@ -212,6 +180,9 @@ Plug 'robbles/logstash.vim'
 " }}}
 " vim-multiple-cursors {{{
 Plug 'terryma/vim-multiple-cursors'
+" }}}
+" Bison & Flex {{{
+Plug 'justinmk/vim-syntax-extra'
 " }}}
 
 

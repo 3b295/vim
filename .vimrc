@@ -146,20 +146,20 @@ let g:python3_host_prog = "/Users/xwystz/.pyenv/shims/python"
 " }}}
 " }}}
 " NERDTree 目录树 {{{
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 
 " 开关目录树
-map <F2> :NERDTreeToggle<CR>   
+" map <F2> :NERDTreeToggle<CR>   
 
-augroup nerdtreegroup
-    autocmd!
-    " vim 没有指定文件时，自动打开 NERDTree     # 影响启动速度
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    "
-    " 只剩目录树时自动关闭
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-augroup END
+" augroup nerdtreegroup
+"     autocmd!
+"     " vim 没有指定文件时，自动打开 NERDTree     # 影响启动速度
+"     autocmd StdinReadPre * let s:std_in=1
+"     autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"     "
+"     " 只剩目录树时自动关闭
+"     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" augroup END
 
 " }}}
 " vim-go {{{
@@ -184,9 +184,9 @@ autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 " }}}
 " 代码片段 {{{
 " 代码片段引擎
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 " 涵盖大部分编程语言的代码片段 
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 
 " <tab> 触发补全
 let g:UltiSnipsExpandTrigger="<tab>"
